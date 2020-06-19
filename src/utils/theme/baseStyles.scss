@@ -1,0 +1,109 @@
+@import "../../assets/sass/_bootstrap.scss";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-weight: 400;
+}
+
+html {
+    overflow: unset !important;
+    font-size: 10px;
+}
+
+body {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Lato",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #484848;
+}
+
+main {
+    height: fit-content;
+}
+
+head {
+    top: 0;
+    left: auto;
+    right: 0;
+    position: fixed;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
+section {
+    width: 100%;
+}
+
+button:focus {
+    outline: 0;
+}
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 0;
+    }
+
+}
+
+@media (min-width: 813px) {
+    .container {
+        max-width: 92vw;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar:horizontal {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #C6C6C6;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #A6A6A6;
+    border: 2px solid #C6C6C6;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #8D8D8D;
+}
