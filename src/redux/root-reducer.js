@@ -3,12 +3,16 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import toDoReducer from './toDo/toDo.reducer';
 const INITIAL_APP_STATE = {
-	language: null,
 	theme: 'dark',
 };
 
 const AppReducer = (state = INITIAL_APP_STATE, action) => {
 	switch (action.type) {
+		case 'SET_APP_THEME':
+			return {
+				...state,
+				theme: action.payload,
+			};
 		default:
 			return state;
 	}

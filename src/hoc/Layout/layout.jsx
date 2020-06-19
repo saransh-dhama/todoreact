@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
 	}
 `;
 const Main = styled.main`
-	padding-top: 59px;
+	padding-top: 60px;
 `;
 
 const Layout = () => {

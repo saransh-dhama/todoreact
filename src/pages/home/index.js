@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 const HomePage = styled.section`
-	min-height: calc(100vh - 70px);
+	min-height: calc(100vh - 60px);
 	background: ${(props) => props.theme.background};
 `;
 const Container = styled.div``;
