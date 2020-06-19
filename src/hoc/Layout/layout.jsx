@@ -4,10 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import Routes from '../../utils/router.jsx';
 
 import styled, { createGlobalStyle } from 'styled-components';
-// import Navigation from '../../components/navigation';
+import Navigation from '../../components/navigation';
 const GlobalStyle = createGlobalStyle`
 	body {
-    color: ${(props) => props.theme.text_color};
+    color: ${(props) => props.theme.color};
 	}
 `;
 const Main = styled.main`
@@ -19,7 +19,7 @@ const Layout = () => {
 		<>
 			<GlobalStyle />
 			<BrowserRouter>
-				{/* <Navigation /> */}
+				<Navigation />
 				<Main id='page-content-wrapper' role='main'>
 					<Routes />
 				</Main>
