@@ -4,7 +4,25 @@ import CheckSvg from '../../../assets/svg/check';
 
 const checked = `
 	text-decoration: line-through;
-	opacity: 0.4;
+	opacity: 0.5;
+`;
+const DeleteIcon = styled.span`
+	color: ${(props) => props.theme.background};
+	font-size: 1.4em !important;
+	font-weight: 700;
+	color: #2f2f31;
+	cursor: pointer;
+	right: 0px;
+	position: absolute;
+	top: 0px;
+	padding: 12px 15px;
+	display: none;
+`;
+const TaskDiv = styled.div`
+	position: relative;
+	&:hover ${DeleteIcon} {
+		display: block;
+	}
 `;
 const EachList = styled.div`
 	font-size: 1rem;
@@ -51,11 +69,11 @@ const EachList = styled.div`
 			path {
 				${(props) =>
 					props.checked
-						? `fill: ${props.theme.primaryColor};`
+						? `fill: ${props.theme.secondaryColor};`
 						: `fill: ${props.theme.color};`}
 			}
 			#tick {
-				fill: ${(props) => props.theme.primaryColor};
+				fill: ${(props) => props.theme.secondaryColor};
 				${(props) => (props.checked ? `display: block;` : `display: none;`)}
 			}
 		}
@@ -67,22 +85,25 @@ const EachList = styled.div`
 	}
 `;
 
-const Item = ({ task, isChecked, id, onCheck }) => {
+const Item = ({ task, isChecked, id, onCheck, deleteTask }) => {
 	const [itemChecked] = useState(isChecked ? true : false);
 	return (
-		<EachList checked={itemChecked}>
-			<input
-				type='checkbox'
-				id={id}
-				className='input'
-				value={itemChecked}
-				onChange={() => onCheck(task)}
-			/>
-			<label htmlFor={id}>
-				<CheckSvg />
-			</label>
-			<span>{task.label}</span>
-		</EachList>
+		<TaskDiv>
+			<EachList checked={itemChecked}>
+				<input
+					type='checkbox'
+					id={id}
+					className='input'
+					value={itemChecked}
+					onChange={() => onCheck(task)}
+				/>
+				<label htmlFor={id}>
+					<CheckSvg />
+				</label>
+				<span>{task.label}</span>
+			</EachList>
+			<DeleteIcon onClick={() => deleteTask(task)}>X</DeleteIcon>
+		</TaskDiv>
 	);
 };
 

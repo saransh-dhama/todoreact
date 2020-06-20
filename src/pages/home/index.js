@@ -41,6 +41,12 @@ const HomePageComponent = ({ tasksList, setTasksLists }) => {
 			tasks: [...tasksList],
 		});
 	};
+	const deleteTask = (taskUpdated) => {
+		const tempList = tasksList.filter((task) => task.id !== taskUpdated.id);
+		setTasksLists({
+			tasks: [...tempList],
+		});
+	};
 	return (
 		<HomePage>
 			<Container className='container'>
@@ -63,6 +69,7 @@ const HomePageComponent = ({ tasksList, setTasksLists }) => {
 										id={task.id}
 										isChecked={task.status === 'active' ? false : true}
 										onCheck={updateTask}
+										deleteTask={deleteTask}
 									/>
 								);
 							})
@@ -84,6 +91,7 @@ const HomePageComponent = ({ tasksList, setTasksLists }) => {
 										id={task.id}
 										isChecked={task.status === 'done' ? true : false}
 										onCheck={updateTask}
+										deleteTask={deleteTask}
 									/>
 								);
 							})

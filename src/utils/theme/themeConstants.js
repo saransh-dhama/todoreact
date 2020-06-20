@@ -11,10 +11,10 @@ export const Constants = {
 	radius: '4px',
 };
 export const ConstantsLight = {
-	primaryColor: '#4391F0',
-	secondaryColor: '#E18726',
+	primaryColor: '#E18726',
+	secondaryColor: '#4391F0',
 	background: '#F6F6F3',
-	elevated: '#c7c7c7',
+	elevated: '#e8e8e8',
 	color: '#2F2F31',
 	colorInvert: '#EAEAE3',
 	fontLight: '300',
