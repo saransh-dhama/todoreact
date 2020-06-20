@@ -1,16 +1,61 @@
 import React from 'react';
-import styled from 'styled-components';
-const HomePage = styled.section`
-	min-height: calc(100vh - 60px);
-	background: ${(props) => props.theme.background};
-`;
-const Container = styled.div``;
+import Item from './pageComponents/item';
+import {
+	HomePage,
+	Container,
+	InputDiv,
+	ListsContainerDiv,
+	ListDiv,
+} from './elementStyles';
+// import {} from '../../redux/toDo/toDo.selector';
+// import {} from '../../redux/toDo/toDo.action';
 
 const HomePageComponent = () => {
+	const [listOfTasks, setTasks] = React.useState([]);
+	const addTasks = (event) => {
+		if (!event.target.value) return;
+		event.persist();
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			const task = {
+				label: event.target.value,
+				time: new Date().getTime(),
+			};
+			setTasks([task, ...listOfTasks]);
+		}
+	};
 	return (
 		<HomePage>
 			<Container className='container'>
-				<span>Hello this is todoapp</span>
+				<InputDiv>
+					<input
+						type='text'
+						placeholder='Add to-do tasks. What needs to done?'
+						onKeyUp={addTasks}
+					/>
+				</InputDiv>
+				<ListsContainerDiv>
+					<ListDiv>
+						<h2>To-Do Activities</h2>
+						{listOfTasks.map((task) => {
+							return (
+								<Item
+									task={task}
+									key={task.time}
+									id={task.time}
+									isChecked={false}
+								/>
+							);
+						})}
+					</ListDiv>
+					<ListDiv>
+						{/* <h2>Done Activities</h2>
+						<Item />
+						<Item />
+						<Item />
+						<Item /> */}
+					</ListDiv>
+				</ListsContainerDiv>
 			</Container>
 		</HomePage>
 	);

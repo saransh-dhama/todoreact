@@ -14,7 +14,7 @@ export const ConstantsLight = {
 	primaryColor: '#4391F0',
 	secondaryColor: '#E18726',
 	background: '#F6F6F3',
-	elevated: '#E1E1E0',
+	elevated: '#c7c7c7',
 	color: '#2F2F31',
 	colorInvert: '#EAEAE3',
 	fontLight: '300',

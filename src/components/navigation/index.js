@@ -12,6 +12,7 @@ const Header = styled.header`
 	height: 60px;
 	font-size: 1rem;
 	background: ${(props) => props.theme.primaryColor};
+	display: flex;
 `;
 const Navigation = ({ currentTheme, setSwitchedTheme }) => {
 	const onChangeHandler = () => {

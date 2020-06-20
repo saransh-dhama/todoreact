@@ -2,13 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NavigationBarDesktop = styled.nav`
-	padding: 8px 15px;
+	padding: 8px 30px;
+	margin: auto;
+	width: 100%;
 `;
 const LinkList = styled.ul`
 	display: grid;
 	justify-content: center;
 	grid-template-columns: 1fr repeat(1, 250px);
 	grid-gap: 20px;
+	padding: 0px;
 	li {
 		list-style: none;
 		font-size: 1.6rem;

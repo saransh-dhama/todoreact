@@ -1,1 +1,4 @@
-export const ToDoActionTypes = {};
+export const ToDoActionTypes = {
+	SET_TASK_LIST: 'SET_TASK_LIST',
+	UPDATE_SINGLE_TASK: 'UPDATE_SINGLE_TASK',
+};
