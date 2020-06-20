@@ -24,6 +24,10 @@ export const ListsContainerDiv = styled.div`
 	grid-template-columns: 1fr 1fr;
 	grid-column-gap: 30px;
 	padding: 30px 15px;
+	@media (max-width: 812px) {
+		grid-template-columns: 1fr;
+		grid-row-gap: 30px;
+	}
 `;
 export const ListDiv = styled.div`
 	h2 {
@@ -32,7 +36,7 @@ export const ListDiv = styled.div`
 		padding: 15px 0px;
 		/* border: 2px solid ${(props) => props.theme.elevated}; */
 		font-size: 1.4em;
-		font-weight: 100;
+		font-weight: ${(props) => props.theme.fontLight};;
 	}
 `;
 
@@ -51,6 +55,6 @@ export const EmptyListMessage = styled.span`
 	margin-top: 30px;
 	font-size: 2rem;
 	color: ${(props) => props.theme.elevated};
-	font-weight: 700;
+	font-weight: ${(props) => props.theme.fontBold};
 	text-align: center;
 `;

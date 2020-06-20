@@ -16,6 +16,12 @@ const LinkList = styled.ul`
 		list-style: none;
 		font-size: 1.6rem;
 	}
+	@media (max-width: 812px) {
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 0px;
+		padding: 0px;
+		align-items: center;
+	}
 `;
 const LogoBlock = styled.li`
 	grid-column: 1 / 2;
@@ -26,6 +32,12 @@ const ToggleSwitch = styled.li`
 	display: flex;
 	justify-content: start;
 	align-items: center;
+	@media (max-width: 812px) {
+		justify-content: flex-end;
+		span {
+			font-size: 1rem;
+		}
+	}
 	input {
 		display: none;
 		&,
@@ -93,7 +105,7 @@ const DesktopNavigation = ({ theme, switchTheme }) => {
 				<LogoBlock>
 					<a href='/'>To-DO</a>
 				</LogoBlock>
-				<ToggleSwitch>
+				<ToggleSwitch className='switchLi'>
 					<span>Switch Theme</span>
 					<input
 						type='checkbox'
