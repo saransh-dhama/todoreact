@@ -1,8 +1,7 @@
 import { ToDoActionTypes } from './toDo.types';
 
 const INITIAL_MAKE_STATE = {
-	list: null,
-	done: null,
+	tasks: [],
 };
 
 const makeReducer = (state = INITIAL_MAKE_STATE, action) => {
@@ -10,8 +9,7 @@ const makeReducer = (state = INITIAL_MAKE_STATE, action) => {
 		case ToDoActionTypes.SET_TASK_LIST:
 			return {
 				...state,
-				list: action.payload.toDo,
-				done: action.payload.done,
+				tasks: action.payload.tasks,
 			};
 		default:
 			return state;

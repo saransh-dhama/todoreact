@@ -20,7 +20,7 @@ const AppReducer = (state = INITIAL_APP_STATE, action) => {
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['app'],
+	whitelist: ['app', 'toDo'],
 };
 
 const rootReducer = combineReducers({

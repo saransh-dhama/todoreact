@@ -29,8 +29,28 @@ export const ListDiv = styled.div`
 	h2 {
 		background-color: ${(props) => props.theme.background};
 		margin: 0;
-		padding: 15px;
-		border: 2px solid ${(props) => props.theme.elevated};
+		padding: 15px 0px;
+		/* border: 2px solid ${(props) => props.theme.elevated}; */
 		font-size: 1.4em;
+		font-weight: 100;
 	}
+`;
+
+export const ListCount = styled.span`
+	display: block;
+	margin-top: 10px;
+	font-size: 1rem;
+	background: ${(props) => props.theme.elevated};
+	width: 65px;
+	text-align: center;
+	padding: 3px;
+	border-radius: 15px;
+`;
+export const EmptyListMessage = styled.span`
+	display: block;
+	margin-top: 30px;
+	font-size: 2rem;
+	color: ${(props) => props.theme.elevated};
+	font-weight: 700;
+	text-align: center;
 `;

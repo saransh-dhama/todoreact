@@ -1,4 +1,6 @@
 import React from 'react';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
 import Item from './pageComponents/item';
 import {
 	HomePage,
@@ -6,12 +8,16 @@ import {
 	InputDiv,
 	ListsContainerDiv,
 	ListDiv,
+	EmptyListMessage,
+	ListCount,
 } from './elementStyles';
-// import {} from '../../redux/toDo/toDo.selector';
-// import {} from '../../redux/toDo/toDo.action';
+import { selectTasks } from '../../redux/toDo/toDo.selector';
+import { setTasksLists } from '../../redux/toDo/toDo.action';
 
-const HomePageComponent = () => {
-	const [listOfTasks, setTasks] = React.useState([]);
+const HomePageComponent = ({ tasksList, setTasksLists }) => {
+	const toDoList = tasksList.filter((task) => task.status === 'active');
+	const doneTaskList = tasksList.filter((task) => task.status === 'done');
+
 	const addTasks = (event) => {
 		if (!event.target.value) return;
 		event.persist();
@@ -19,10 +25,21 @@ const HomePageComponent = () => {
 			event.preventDefault();
 			const task = {
 				label: event.target.value,
-				time: new Date().getTime(),
+				id: new Date().getTime(),
+				status: 'active',
 			};
-			setTasks([task, ...listOfTasks]);
+			setTasksLists({
+				tasks: [...tasksList, task],
+			});
 		}
+	};
+	const updateTask = (taskUpdated) => {
+		const index = tasksList.findIndex((task) => task.id === taskUpdated.id);
+		tasksList[index].status =
+			taskUpdated.status === 'active' ? `done` : `active`;
+		setTasksLists({
+			tasks: [...tasksList],
+		});
 	};
 	return (
 		<HomePage>
@@ -37,23 +54,42 @@ const HomePageComponent = () => {
 				<ListsContainerDiv>
 					<ListDiv>
 						<h2>To-Do Activities</h2>
-						{listOfTasks.map((task) => {
-							return (
-								<Item
-									task={task}
-									key={task.time}
-									id={task.time}
-									isChecked={false}
-								/>
-							);
-						})}
+						{toDoList.length ? (
+							toDoList.map((task) => {
+								return (
+									<Item
+										task={task}
+										key={task.id}
+										id={task.id}
+										isChecked={task.status === 'active' ? false : true}
+										onCheck={updateTask}
+									/>
+								);
+							})
+						) : (
+							<EmptyListMessage>No tasks available.</EmptyListMessage>
+						)}
+						{toDoList.length ? (
+							<ListCount>{`${toDoList.length} items left`}</ListCount>
+						) : null}
 					</ListDiv>
 					<ListDiv>
-						{/* <h2>Done Activities</h2>
-						<Item />
-						<Item />
-						<Item />
-						<Item /> */}
+						<h2>Tasks completed</h2>
+						{doneTaskList.length ? (
+							doneTaskList.map((task) => {
+								return (
+									<Item
+										task={task}
+										key={task.id}
+										id={task.id}
+										isChecked={task.status === 'done' ? true : false}
+										onCheck={updateTask}
+									/>
+								);
+							})
+						) : (
+							<EmptyListMessage>Done tasks list is empty</EmptyListMessage>
+						)}
 					</ListDiv>
 				</ListsContainerDiv>
 			</Container>
@@ -61,4 +97,12 @@ const HomePageComponent = () => {
 	);
 };
 
-export default HomePageComponent;
+const mapStateToProps = createStructuredSelector({
+	tasksList: selectTasks,
+});
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setTasksLists: (list) => dispatch(setTasksLists(list)),
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(HomePageComponent);
