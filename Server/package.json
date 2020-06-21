@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node src/index.js",
+		"start": "nodemon --inspect=0.0.0.0 src/index.js",
 		"dev": "nodemon src/index.js"
 	},
 	"keywords": [],
@@ -13,7 +13,9 @@
 	"dependencies": {
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
-		"express-validator": "^6.5.0"
+		"express-validator": "^6.5.0",
+		"knex": "^0.21.1",
+		"sqlite3": "^4.2.0"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.4"
