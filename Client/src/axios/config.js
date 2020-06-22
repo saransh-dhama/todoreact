@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const covidAPI = axios.create({
-	baseURL: 'https://api.covid19api.com/',
+const api = axios.create({
+	baseURL: 'http://localhost:3200/api/',
 	timeout: 1000,
 });
 
-export default covidAPI;
+export default api;

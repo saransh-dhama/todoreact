@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import Item from './pageComponents/item';
@@ -12,12 +12,17 @@ import {
 	ListCount,
 } from './elementStyles';
 import { selectTasks } from '../../redux/toDo/toDo.selector';
-import { setTasksLists } from '../../redux/toDo/toDo.action';
+import {
+	setTasksLists,
+	postUserRegistartionData,
+} from '../../redux/toDo/toDo.action';
 
-const HomePageComponent = ({ tasksList, setTasksLists }) => {
+const HomePageComponent = ({ testData, tasksList, setTasksLists }) => {
 	const toDoList = tasksList.filter((task) => task.status === 'active');
 	const doneTaskList = tasksList.filter((task) => task.status === 'done');
-
+	useEffect(() => {
+		testData();
+	}, []);
 	const addTasks = (event) => {
 		if (!event.target.value) return;
 		event.persist();
@@ -108,9 +113,8 @@ const HomePageComponent = ({ tasksList, setTasksLists }) => {
 const mapStateToProps = createStructuredSelector({
 	tasksList: selectTasks,
 });
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setTasksLists: (list) => dispatch(setTasksLists(list)),
-	};
-};
+const mapDispatchToProps = (dispatch) => ({
+	setTasksLists: (list) => dispatch(setTasksLists(list)),
+	testData: () => dispatch(postUserRegistartionData()),
+});
 export default connect(mapStateToProps, mapDispatchToProps)(HomePageComponent);

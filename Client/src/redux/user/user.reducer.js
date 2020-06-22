@@ -21,19 +21,19 @@ const userReducer = (state = INITIAL_USER_STATE, action) => {
 				data: '',
 				isUserLogged: false,
 			};
-		case UserActionTypes.FETCH_DATA_PENDING:
+		case UserActionTypes.USER_API_ACTION_PENDING:
 			return {
 				...state,
 				pending: true,
 			};
-		case UserActionTypes.FETCH_DATA_SUCCESS:
+		case UserActionTypes.USER_SIGNIN:
 			return {
 				...state,
 				pending: false,
 				data: action.payload,
 				isUserLogged: true,
 			};
-		case UserActionTypes.FETCH_DATA_ERROR:
+		case UserActionTypes.ERROR_IN_API:
 			return {
 				...state,
 				pending: false,

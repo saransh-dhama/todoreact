@@ -126,9 +126,6 @@ const DesktopNavigation = ({ theme, switchTheme, isUserLogged, signOut }) => {
 					{!isUserLogged ? (
 						<>
 							<li>
-								<a href='/todo'>Tasks</a>
-							</li>
-							<li>
 								<a href='/register'>Sign up</a>
 							</li>
 							<li>
@@ -136,9 +133,14 @@ const DesktopNavigation = ({ theme, switchTheme, isUserLogged, signOut }) => {
 							</li>
 						</>
 					) : (
-						<li onClick={signOut}>
-							<span>Sign out</span>
-						</li>
+						<>
+							<li>
+								<a href='/todo'>Tasks</a>
+							</li>
+							<li onClick={signOut}>
+								<span>Sign out</span>
+							</li>
+						</>
 					)}
 					<ToggleSwitch className='switchLi'>
 						<span>Switch Theme</span>

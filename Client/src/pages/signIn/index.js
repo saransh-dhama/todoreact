@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { setCurrentUser, fetchUserData } from '../../redux/user/user.actions';
+import {
+	setCurrentUser,
+	userSignInFunction,
+} from '../../redux/user/user.actions';
 import {
 	selectCurrentUser,
 	isUserLogged,
@@ -15,7 +18,7 @@ import Form from './pageComponents/form/index';
 const SignInComponent = ({ setCurrentUser, userData, isUserLogged }) => {
 	useEffect(() => {
 		userData();
-	}, [userData]);
+	}, []);
 	if (isUserLogged) {
 		return <Redirect to='/' />;
 	}
@@ -50,6 +53,6 @@ const mapStateToProps = createStructuredSelector({
 });
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-	userData: () => dispatch(fetchUserData()),
+	userData: () => dispatch(userSignInFunction()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);

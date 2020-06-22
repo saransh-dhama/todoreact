@@ -1,71 +1,41 @@
 import { UserActionTypes } from './user.types';
-import covidAPI from '../../axios/config';
+import api from '../../axios/config';
 import axios from 'axios';
 
-export const fetchDataPending = () => {
+export const userApiActionPending = () => {
 	return {
-		type: UserActionTypes.FETCH_DATA_PENDING,
+		type: UserActionTypes.USER_API_ACTION_PENDING,
 	};
 };
-export const fetchDataSuccess = (data) => {
+export const userSignIn = (data) => {
 	return {
-		type: UserActionTypes.FETCH_DATA_SUCCESS,
+		type: UserActionTypes.USER_SIGNIN,
 		payload: data,
 	};
 };
-export const fetchDataError = (error) => {
+export const apiError = (error) => {
 	return {
-		type: UserActionTypes.FETCH_DATA_ERROR,
+		type: UserActionTypes.ERROR_IN_API,
 		error: error,
 	};
 };
 
-export const fetchUserData = () => {
-	return (dispatch) => {
-		let userLocation;
-		dispatch(fetchDataPending());
-		axios
-			.get('http://ip-api.com/json')
-			.then(({ data }) => {
-				userLocation = data.country;
-				return covidAPI.get('summary');
-			})
-			.then(({ data }) => {
-				const result = {
-					global: data['Global'],
-					userLoc: userLocation
-						? data['Countries'].find((entry) => entry.Country === userLocation)
-						: undefined,
-				};
-				dispatch(fetchDataSuccess(result));
-				return result;
-			})
-			.catch((err) => dispatch(fetchDataError(err)));
-	};
-};
-
-export const postUserRegistartionData = (data) => {
+export const userSignUpFunction = (data) => {
 	console.log(data);
-	return (dispatch) => {
-		let userLocation;
-		dispatch(fetchDataPending());
-		axios
-			.get('http://ip-api.com/json')
-			.then(({ data }) => {
-				userLocation = data.country;
-				return covidAPI.get('summary');
+};
+export const userSignInFunction = () => {
+	return (dispatch, getState) => {
+		dispatch(userApiActionPending());
+		api
+			.post('/user/signin', {
+				email: 'example@test.com',
+				password: 'simbatest',
 			})
 			.then(({ data }) => {
-				const result = {
-					global: data['Global'],
-					userLoc: userLocation
-						? data['Countries'].find((entry) => entry.Country === userLocation)
-						: undefined,
-				};
-				dispatch(fetchDataSuccess(result));
-				return result;
+				dispatch(userSignIn(data));
+				return data;
 			})
-			.catch((err) => dispatch(fetchDataError(err)));
+			.catch((err) => dispatch(apiError(err)));
 	};
 };
 

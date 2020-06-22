@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
 	setCurrentUser,
-	postUserRegistartionData,
+	userSignUpFunction,
 } from '../../redux/user/user.actions';
 import {
 	selectCurrentUser,
@@ -41,6 +41,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-	registerUSer: (data) => dispatch(postUserRegistartionData(data)),
+	registerUSer: (data) => dispatch(userSignUpFunction(data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);
