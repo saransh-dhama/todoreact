@@ -1,17 +1,19 @@
 const express = require('express');
 const { body } = require('express-validator');
 
-const { validateResult } = require('../../middlewares/errorHandler');
+const { validateResult } = require('../../middlewares/validateResult');
+const { PasswordHandler } = require('../../services/PasswordHandler');
+const { JWTHandler } = require('../../services/JWTHandler');
 
 const router = express.Router();
 
 let user;
 
 router.post(
-	'/api/users',
+	'/api/user/signup',
 	[
-		body('age')
-			.isInt({ min: 18 })
+		body('is18OrOlder')
+			.equals('true')
 			.withMessage('You must be at least 18 to use this app.'),
 		body('email')
 			.isEmail()
@@ -25,9 +27,24 @@ router.post(
 	validateResult,
 	async (req, res) => {
 		// create user logic
-		const { email, password, name, age } = req.body;
+		const { email, password, name, is18OrOlder } = req.body;
 
-		res.send({ here: 'wecare' });
+		user = {
+			id: 'dkajda2983823131',
+			email,
+			password: await PasswordHandler.toHash(password),
+			name,
+			is18OrOlder,
+		};
+
+		const token = JWTHandler.generatejwt({
+			id: user.id,
+			name: user.name,
+		});
+
+		req.session = { jwt: token };
+
+		res.send(user);
 	}
 );
 

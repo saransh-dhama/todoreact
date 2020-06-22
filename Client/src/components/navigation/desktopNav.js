@@ -120,24 +120,24 @@ const DesktopNavigation = ({ theme, switchTheme, isUserLogged, signOut }) => {
 		<NavigationBarDesktop>
 			<LinkList>
 				<LogoBlock>
-					<a href='/'>To-DO</a>
+					<a href='/'>Scratch that!</a>
 				</LogoBlock>
 				<MenuBlock>
-					<li>
-						<a href='/todo'>Tasks</a>
-					</li>
 					{!isUserLogged ? (
 						<>
 							<li>
-								<a href='/register'>Register</a>
+								<a href='/todo'>Tasks</a>
 							</li>
 							<li>
-								<a href='/sign-in'>Sign-In</a>
+								<a href='/register'>Sign up</a>
+							</li>
+							<li>
+								<a href='/sign-in'>Sign in</a>
 							</li>
 						</>
 					) : (
 						<li onClick={signOut}>
-							<span>Sign-Out</span>
+							<span>Sign out</span>
 						</li>
 					)}
 					<ToggleSwitch className='switchLi'>

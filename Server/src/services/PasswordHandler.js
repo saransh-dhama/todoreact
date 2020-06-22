@@ -1,9 +1,9 @@
-import { scrypt, randomBytes } from 'crypto';
-import { promisify } from 'util';
+const { scrypt, randomBytes } = require('crypto');
+const { promisify } = require('util');
 
 const scryptAsync = promisify(scrypt);
 
-export class PasswordHandler {
+class PasswordHandler {
 	static async toHash(password) {
 		const salt = randomBytes(8).toString('hex');
 		const buffer = await scryptAsync(password, salt, 64);
@@ -18,3 +18,5 @@ export class PasswordHandler {
 		return buffer.toString('hex') === hashedPassword;
 	}
 }
+
+exports.PasswordHandler = PasswordHandler;
