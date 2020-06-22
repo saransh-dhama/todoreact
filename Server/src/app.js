@@ -22,4 +22,4 @@ app.all('/', (req, res) => {
 
 module.exports = { app };
 
-require('./routes/auth');
+require('./routes');
