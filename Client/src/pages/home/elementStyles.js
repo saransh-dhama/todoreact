@@ -27,6 +27,15 @@ export const ButtonsRow = styled.div`
 	grid-column-gap: 30px;
 	margin-top: 30px;
 `;
+export const ButtonsRowSingle = styled.div`
+	width: 100%;
+	max-width: 300px;
+	margin: auto;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-column-gap: 30px;
+	margin-top: 30px;
+`;
 export const Button = styled.button`
 	border: 0px;
 	outline: none;

@@ -1,6 +1,5 @@
 import { UserActionTypes } from './user.types';
 import api from '../../axios/config';
-import axios from 'axios';
 
 export const userApiActionPending = () => {
 	return {
@@ -21,7 +20,16 @@ export const apiError = (error) => {
 };
 
 export const userSignUpFunction = (data) => {
-	console.log(data);
+	return (dispatch) => {
+		dispatch(userApiActionPending());
+		api
+			.post('/user/signup', data)
+			.then(({ data }) => {
+				dispatch(userSignIn(data));
+				return data;
+			})
+			.catch((err) => dispatch(apiError(err)));
+	};
 };
 export const userSignInFunction = () => {
 	return (dispatch, getState) => {

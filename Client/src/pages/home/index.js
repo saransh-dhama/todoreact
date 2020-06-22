@@ -13,6 +13,7 @@ import {
 	SignInContent,
 	ButtonsRow,
 	Button,
+	ButtonsRowSingle,
 } from './elementStyles';
 const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
 	const history = useHistory();
@@ -27,10 +28,18 @@ const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
 					<p>To start using the app, please register for new users or</p>
 					<p>sign-in for existing users</p>
 				</SignInContent>
-				<ButtonsRow>
-					<Button onClick={() => history.push('/register')}>Register</Button>
-					<Button onClick={() => history.push('/sign-in')}>Sign In</Button>
-				</ButtonsRow>
+				{isUserLogged ? (
+					<ButtonsRowSingle>
+						<Button onClick={() => history.push('/todo')}>
+							Manage your tasks
+						</Button>
+					</ButtonsRowSingle>
+				) : (
+					<ButtonsRow>
+						<Button onClick={() => history.push('/register')}>Register</Button>
+						<Button onClick={() => history.push('/sign-in')}>Sign In</Button>
+					</ButtonsRow>
+				)}
 			</div>
 		</SignInSection>
 	);

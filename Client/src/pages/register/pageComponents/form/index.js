@@ -31,24 +31,17 @@ class FormComponent extends React.Component {
 		event.preventDefault();
 		const form = event.target;
 		const data = new FormData(form);
-		for (let input of data.keys()) {
-			const value = data.get(input);
-			console.log(input, value);
-		}
 		this.props.submitHandler({
-			name: {
-				value: '',
-				error: false,
-			},
-			email: {
-				value: '',
-				error: false,
-			},
-			password: {
-				value: '',
-				error: false,
-			},
-			isOfAge: false,
+			is18OrOlder: 'true',
+			email: data.get('email'),
+			password: data.get('password'),
+			name: data.get('name'),
+		});
+		console.log({
+			is18OrOlder: 'true',
+			email: data.get('email'),
+			password: data.get('password'),
+			name: data.get('name'),
 		});
 	};
 
@@ -129,8 +122,8 @@ class FormComponent extends React.Component {
 				<CheckBoxInputDiv>
 					<input
 						type='checkbox'
-						id='above18'
-						name='above18'
+						id='is18OrOlder'
+						name='is18OrOlder'
 						checked={this.state.isOfAge}
 						onChange={() =>
 							this.setState((previousState) => {
@@ -138,7 +131,7 @@ class FormComponent extends React.Component {
 							})
 						}
 					/>
-					<label htmlFor='above18'>I am 18 years or above.</label>
+					<label htmlFor='is18OrOlder'>I am 18 years or above.</label>
 				</CheckBoxInputDiv>
 				<ButtonDIv grayout={!this.state.isOfAge}>
 					<button type='submit' disabled={!this.state.isOfAge}>

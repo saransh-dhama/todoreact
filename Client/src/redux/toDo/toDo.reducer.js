@@ -14,7 +14,7 @@ const makeReducer = (state = INITIAL_MAKE_STATE, action) => {
 		case ToDoActionTypes.TODO_FETCH_LIST:
 			return {
 				...state,
-				tasks: action.payload.tasks,
+				tasks: action.payload,
 			};
 		default:
 			return state;

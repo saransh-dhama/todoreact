@@ -20,7 +20,6 @@ export const fetchDataError = (error) => {
 };
 
 export const postUserRegistartionData = (data) => {
-	console.log('data');
 	return (dispatch, getState) => {
 		dispatch(toApiPending());
 		api
@@ -32,8 +31,16 @@ export const postUserRegistartionData = (data) => {
 				{ headers: { Authorization: `Bearer ${getState().user.data.jwt}` } }
 			)
 			.then(({ data }) => {
-				dispatch(todoFetchList(data));
-				// return data;
+				dispatch(
+					todoFetchList([
+						{
+							label: 'adasd asdasd ad asd',
+							id: '1592863774696',
+							status: 'active',
+						},
+					])
+				);
+				return data;
 			})
 			.catch((err) => dispatch(fetchDataError(err)));
 	};
