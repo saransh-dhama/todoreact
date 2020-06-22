@@ -3,8 +3,11 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import DesktopNavigation from './desktopNav';
+import { isUserLogged } from '../../redux/user/user.selectors';
 import { selectCurrentTheme } from '../../redux/app.selector';
 import { setUserThemeMode } from '../../redux/app.action';
+import { removeCurrentUser } from '../../redux/user/user.actions';
+
 const Header = styled.header`
 	position: fixed;
 	z-index: 999;
@@ -14,7 +17,15 @@ const Header = styled.header`
 	background: ${(props) => props.theme.primaryColor};
 	display: flex;
 `;
-const Navigation = ({ currentTheme, setSwitchedTheme }) => {
+const Navigation = ({
+	isUserLogged,
+	currentTheme,
+	setSwitchedTheme,
+	removeCurrentUser,
+}) => {
+	const signOut = () => {
+		removeCurrentUser();
+	};
 	const onChangeHandler = () => {
 		currentTheme === 'dark'
 			? setSwitchedTheme('light')
@@ -22,19 +33,22 @@ const Navigation = ({ currentTheme, setSwitchedTheme }) => {
 	};
 	return (
 		<Header id='header'>
-			<DesktopNavigation theme={currentTheme} switchTheme={onChangeHandler} />
+			<DesktopNavigation
+				theme={currentTheme}
+				switchTheme={onChangeHandler}
+				isUserLogged={isUserLogged}
+				signOut={signOut}
+			/>
 		</Header>
 	);
 };
 
 const mapStateToProps = createStructuredSelector({
 	currentTheme: selectCurrentTheme,
+	isUserLogged: isUserLogged,
 });
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		setSwitchedTheme: (mode) => dispatch(setUserThemeMode(mode)),
-	};
-};
-
+const mapDispatchToProps = (dispatch) => ({
+	setSwitchedTheme: (mode) => dispatch(setUserThemeMode(mode)),
+	removeCurrentUser: () => dispatch(removeCurrentUser()),
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

@@ -17,6 +17,7 @@ const LinkList = styled.ul`
 		list-style: none;
 		font-size: 1.6rem;
 		text-align: center;
+		cursor: pointer;
 	}
 	@media (max-width: 812px) {
 		grid-template-columns: 1fr 1fr;
@@ -114,7 +115,7 @@ const ToggleSwitch = styled.li`
 		}
 	}
 `;
-const DesktopNavigation = ({ theme, switchTheme }) => {
+const DesktopNavigation = ({ theme, switchTheme, isUserLogged, signOut }) => {
 	return (
 		<NavigationBarDesktop>
 			<LinkList>
@@ -125,12 +126,20 @@ const DesktopNavigation = ({ theme, switchTheme }) => {
 					<li>
 						<a href='/todo'>Tasks</a>
 					</li>
-					<li>
-						<a href='/register'>Register</a>
-					</li>
-					<li>
-						<a href='/sign-in'>Sign-In</a>
-					</li>
+					{!isUserLogged ? (
+						<>
+							<li>
+								<a href='/register'>Register</a>
+							</li>
+							<li>
+								<a href='/sign-in'>Sign-In</a>
+							</li>
+						</>
+					) : (
+						<li onClick={signOut}>
+							<span>Sign-Out</span>
+						</li>
+					)}
 					<ToggleSwitch className='switchLi'>
 						<span>Switch Theme</span>
 						<input

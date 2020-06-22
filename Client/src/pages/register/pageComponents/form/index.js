@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	Form,
 	EachInputDiv,
@@ -35,6 +35,21 @@ class FormComponent extends React.Component {
 			const value = data.get(input);
 			console.log(input, value);
 		}
+		this.props.submitHandler({
+			name: {
+				value: '',
+				error: false,
+			},
+			email: {
+				value: '',
+				error: false,
+			},
+			password: {
+				value: '',
+				error: false,
+			},
+			isOfAge: false,
+		});
 	};
 
 	render() {

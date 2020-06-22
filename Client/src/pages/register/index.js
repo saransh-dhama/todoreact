@@ -2,7 +2,10 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { setCurrentUser } from '../../redux/user/user.actions';
+import {
+	setCurrentUser,
+	postUserRegistartionData,
+} from '../../redux/user/user.actions';
 import {
 	selectCurrentUser,
 	isUserLogged,
@@ -10,18 +13,12 @@ import {
 
 import { SignInSection, SignInContent } from './elementStyles';
 import Form from './pageComponents/form/index';
-const RegisterComponent = ({ setCurrentUser, isUserLogged }) => {
+const RegisterComponent = ({ setCurrentUser, isUserLogged, registerUSer }) => {
 	if (isUserLogged) {
 		return <Redirect to='/' />;
 	}
-	const HandleSubmit = (event) => {
-		event.preventDefault();
-		const form = event.target;
-		const data = new FormData(form);
-		for (let input of data.keys()) {
-			const value = data.get(input);
-			console.log(input, value);
-		}
+	const HandleSubmit = (data) => {
+		registerUSer(data);
 	};
 	return (
 		<SignInSection className='signIn__section'>
@@ -44,5 +41,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+	registerUSer: (data) => dispatch(postUserRegistartionData(data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);

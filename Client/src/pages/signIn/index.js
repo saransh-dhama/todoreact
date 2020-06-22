@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { setCurrentUser } from '../../redux/user/user.actions';
+import { setCurrentUser, fetchUserData } from '../../redux/user/user.actions';
 import {
 	selectCurrentUser,
 	isUserLogged,
+	getDataPending,
+	getDataError,
 } from '../../redux/user/user.selectors';
 
 import { SignInSection, SignInContent } from './elementStyles';
 import Form from './pageComponents/form/index';
-const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
+const SignInComponent = ({ setCurrentUser, userData, isUserLogged }) => {
+	useEffect(() => {
+		userData();
+	}, [userData]);
 	if (isUserLogged) {
 		return <Redirect to='/' />;
 	}
@@ -27,8 +32,8 @@ const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
 		<SignInSection className='signIn__section'>
 			<div className='signIn__container container'>
 				<SignInContent className='signIn__container--content'>
-					<h1>New User Registeration</h1>
-					<p>Please fill in the form below to register</p>
+					<h1>Welcome back, Sign In</h1>
+					<p>Please fill in the form below to sign-in</p>
 				</SignInContent>
 				<div>
 					<Form submitHandler={HandleSubmit} />
@@ -40,9 +45,11 @@ const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
 const mapStateToProps = createStructuredSelector({
 	currentUser: selectCurrentUser,
 	isUserLogged: isUserLogged,
+	error: getDataError,
+	pending: getDataPending,
 });
-
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+	userData: () => dispatch(fetchUserData()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);

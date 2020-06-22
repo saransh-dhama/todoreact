@@ -4,6 +4,9 @@ export const Form = styled.form`
 	font-size: 1rem;
 	max-width: 400px;
 	margin: auto;
+	span.error {
+		color: ${(props) => props.theme.secondaryColor};
+	}
 `;
 export const EachInputDiv = styled.div`
 	padding: 15px;
