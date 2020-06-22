@@ -11,7 +11,7 @@ export const Constants = {
 	radius: '4px',
 };
 export const ConstantsLight = {
-	primaryColor: '#E18726',
+	primaryColor: '#ffc485',
 	secondaryColor: '#4391F0',
 	background: '#F6F6F3',
 	elevated: '#e8e8e8',

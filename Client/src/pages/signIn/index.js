@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { setCurrentUser } from '../../redux/user/user.actions';
@@ -8,29 +8,31 @@ import {
 	isUserLogged,
 } from '../../redux/user/user.selectors';
 
-import {
-	SignInSection,
-	SignInContent,
-	ButtonsRow,
-	Button,
-} from './elementStyles';
+import { SignInSection, SignInContent } from './elementStyles';
+import Form from './pageComponents/form/index';
 const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
-	const history = useHistory();
-	// if (isUserLogged) {
-	// 	return <Redirect to='/' />;
-	// }
+	if (isUserLogged) {
+		return <Redirect to='/' />;
+	}
+	const HandleSubmit = (event) => {
+		event.preventDefault();
+		const form = event.target;
+		const data = new FormData(form);
+		for (let input of data.keys()) {
+			const value = data.get(input);
+			console.log(input, value);
+		}
+	};
 	return (
 		<SignInSection className='signIn__section'>
 			<div className='signIn__container container'>
 				<SignInContent className='signIn__container--content'>
-					<h1>Welcome to To-DO app</h1>
-					<p>To start using the app, please register for new users or</p>
-					<p>sign-in for existing users</p>
+					<h1>New User Registeration</h1>
+					<p>Please fill in the form below to register</p>
 				</SignInContent>
-				<ButtonsRow>
-					<Button onClick={() => history.push('/register')}>Register</Button>
-					<Button onClick={() => history.push('/sign-in')}>Sign In</Button>
-				</ButtonsRow>
+				<div>
+					<Form submitHandler={HandleSubmit} />
+				</div>
 			</div>
 		</SignInSection>
 	);

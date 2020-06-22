@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import toDoReducer from './toDo/toDo.reducer';
+import user from './user/user.reducer';
 const INITIAL_APP_STATE = {
 	theme: 'dark',
 };
@@ -26,6 +27,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	app: AppReducer,
 	toDo: toDoReducer,
+	user: user,
 });
 
 export default persistReducer(persistConfig, rootReducer);

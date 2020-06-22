@@ -9,12 +9,14 @@ const NavigationBarDesktop = styled.nav`
 const LinkList = styled.ul`
 	display: grid;
 	justify-content: center;
-	grid-template-columns: 1fr repeat(1, 250px);
+	grid-template-columns: 1fr repeat(1, 450px);
+
 	grid-gap: 20px;
 	padding: 0px;
 	li {
 		list-style: none;
 		font-size: 1.6rem;
+		text-align: center;
 	}
 	@media (max-width: 812px) {
 		grid-template-columns: 1fr 1fr;
@@ -28,15 +30,29 @@ const LogoBlock = styled.li`
 	justify-self: start;
 	font-weight: ${(props) => props.theme.fontBold};
 `;
+const MenuBlock = styled.div`
+	display: grid;
+	grid-template-columns: 1fr repeat(3, 1fr);
+	align-items: center;
+	@media (max-width: 812px) {
+		display: grid;
+		grid-template-columns: 1fr;
+		position: absolute;
+		right: 0;
+		width: 100%;
+		grid-row-gap: 0px;
+		display: none;
+	}
+`;
 const ToggleSwitch = styled.li`
 	display: flex;
 	justify-content: start;
 	align-items: center;
+	span {
+		font-size: 1rem;
+	}
 	@media (max-width: 812px) {
 		justify-content: flex-end;
-		span {
-			font-size: 1rem;
-		}
 	}
 	input {
 		display: none;
@@ -105,16 +121,27 @@ const DesktopNavigation = ({ theme, switchTheme }) => {
 				<LogoBlock>
 					<a href='/'>To-DO</a>
 				</LogoBlock>
-				<ToggleSwitch className='switchLi'>
-					<span>Switch Theme</span>
-					<input
-						type='checkbox'
-						id='theme_switch'
-						checked={theme !== 'dark'}
-						onChange={switchTheme}
-					/>
-					<label htmlFor='theme_switch'></label>
-				</ToggleSwitch>
+				<MenuBlock>
+					<li>
+						<a href='/todo'>Tasks</a>
+					</li>
+					<li>
+						<a href='/register'>Register</a>
+					</li>
+					<li>
+						<a href='/sign-in'>Sign-In</a>
+					</li>
+					<ToggleSwitch className='switchLi'>
+						<span>Switch Theme</span>
+						<input
+							type='checkbox'
+							id='theme_switch'
+							checked={theme !== 'dark'}
+							onChange={switchTheme}
+						/>
+						<label htmlFor='theme_switch'></label>
+					</ToggleSwitch>
+				</MenuBlock>
 			</LinkList>
 		</NavigationBarDesktop>
 	);
