@@ -15,21 +15,25 @@ import {
 import { selectTasks } from '../../redux/toDo/toDo.selector';
 import { isUserLogged } from '../../redux/user/user.selectors';
 import {
-	setTasksLists,
 	getAllTasksForUser,
+	addNewTaskForUser,
+	updateTask,
+	deleteTask,
 } from '../../redux/toDo/toDo.action';
 
 const ToDoPageComponent = ({
 	isUserLogged,
-	getTasks,
+	fetchTasksFromServer,
 	tasksList,
-	setTasksLists,
+	addNewTask,
+	updateTask,
+	deleteTask,
 }) => {
 	useEffect(() => {
 		if (isUserLogged) {
-			getTasks();
+			fetchTasksFromServer();
 		}
-	}, [isUserLogged, getTasks]);
+	}, [isUserLogged, fetchTasksFromServer]);
 	if (!isUserLogged) {
 		return <Redirect to='/' />;
 	}
@@ -41,28 +45,14 @@ const ToDoPageComponent = ({
 		if (event.key === 'Enter') {
 			event.preventDefault();
 			const task = {
-				label: event.target.value,
-				id: new Date().getTime(),
-				status: 'active',
+				task: event.target.value,
 			};
-			setTasksLists({
-				tasks: [...tasksList, task],
-			});
+			addNewTask(task);
 		}
 	};
-	const updateTask = (taskUpdated) => {
-		const index = tasksList.findIndex((task) => task.id === taskUpdated.id);
-		tasksList[index].status =
-			taskUpdated.status === 'active' ? `done` : `active`;
-		setTasksLists({
-			tasks: [...tasksList],
-		});
-	};
-	const deleteTask = (taskUpdated) => {
-		const tempList = tasksList.filter((task) => task.id !== taskUpdated.id);
-		setTasksLists({
-			tasks: [...tempList],
-		});
+	const update = (taskUpdated) => {
+		taskUpdated.status = taskUpdated.status === 'active' ? `done` : `active`;
+		updateTask(taskUpdated);
 	};
 	return (
 		<HomePage>
@@ -85,8 +75,8 @@ const ToDoPageComponent = ({
 										key={task.taskId}
 										id={task.taskId}
 										isChecked={task.status === 'active' ? false : true}
-										onCheck={updateTask}
-										deleteTask={deleteTask}
+										onCheck={update}
+										deleteTask={() => deleteTask(task)}
 									/>
 								);
 							})
@@ -104,11 +94,11 @@ const ToDoPageComponent = ({
 								return (
 									<Item
 										task={task}
-										key={task.id}
-										id={task.id}
+										key={task.taskId}
+										id={task.taskId}
 										isChecked={task.status === 'done' ? true : false}
-										onCheck={updateTask}
-										deleteTask={deleteTask}
+										onCheck={update}
+										deleteTask={() => deleteTask(task)}
 									/>
 								);
 							})
@@ -127,7 +117,9 @@ const mapStateToProps = createStructuredSelector({
 	isUserLogged: isUserLogged,
 });
 const mapDispatchToProps = (dispatch) => ({
-	setTasksLists: (list) => dispatch(setTasksLists(list)),
-	getTasks: () => dispatch(getAllTasksForUser()),
+	addNewTask: (task) => dispatch(addNewTaskForUser(task)),
+	fetchTasksFromServer: () => dispatch(getAllTasksForUser()),
+	updateTask: (task) => dispatch(updateTask(task)),
+	deleteTask: (task) => dispatch(deleteTask(task)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ToDoPageComponent);

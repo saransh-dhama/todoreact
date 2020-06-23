@@ -30,7 +30,7 @@ const ErrorBar = ({ error, clearError }) => {
 				<>
 					<span>
 						{`An error occurred for this action, ${error.statusText}, ${
-							error.data.message ? error.data.message : ''
+							error.data ? (error.data.message ? error.data.message : '') : ''
 						}`}
 					</span>
 					<span className='close' onClick={() => clearError()}>

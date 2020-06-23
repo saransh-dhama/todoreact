@@ -17,6 +17,7 @@ export const addNewTask = (data) => {
 		payload: data,
 	};
 };
+
 export const apiError = (error) => {
 	return {
 		type: 'ERROR_ON_PAGE',
@@ -39,14 +40,17 @@ export const getAllTasksForUser = (data) => {
 				dispatch(todoFetchList(data));
 				return data;
 			})
-			.catch((err) => dispatch(apiError(err)));
+			.catch((err) => {
+				dispatch(apiError(err.response));
+				return err;
+			});
 	};
 };
-export const addNewTaskForUser = (data) => {
+export const addNewTaskForUser = (task) => {
 	return (dispatch, getState) => {
 		dispatch(toApiPending());
 		api
-			.post('/todo', data, {
+			.post('/todo', task, {
 				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
 			})
 			.then(({ data }) => {
@@ -54,7 +58,66 @@ export const addNewTaskForUser = (data) => {
 				dispatch(addNewTask(data));
 				return data;
 			})
-			.catch((err) => dispatch(apiError(err)));
+			.catch((err) => {
+				dispatch(apiError(err.response));
+				return err;
+			});
+	};
+};
+export const updateTask = (task) => {
+	return (dispatch, getState) => {
+		dispatch(toApiPending());
+		api
+			.put(`/todo/${task.taskId}`, task, {
+				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
+			})
+			.then((response) => {
+				return api
+					.get('/todo', {
+						headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
+					})
+					.then(({ data }) => {
+						dispatch(clearError());
+						dispatch(todoFetchList(data));
+						return data;
+					})
+					.catch((err) => {
+						dispatch(apiError(err.response));
+						return err;
+					});
+			})
+			.catch((err) => {
+				dispatch(apiError(err.response));
+				return err;
+			});
+	};
+};
+export const deleteTask = (task) => {
+	return (dispatch, getState) => {
+		dispatch(toApiPending());
+		api
+			.delete(`/todo/${task.taskId}`, {
+				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
+			})
+			.then((response) => {
+				return api
+					.get('/todo', {
+						headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
+					})
+					.then(({ data }) => {
+						dispatch(clearError());
+						dispatch(todoFetchList(data));
+						return data;
+					})
+					.catch((err) => {
+						dispatch(apiError(err.response));
+						return err;
+					});
+			})
+			.catch((err) => {
+				dispatch(apiError(err.response));
+				return err;
+			});
 	};
 };
 export const setTasksLists = (list) => {

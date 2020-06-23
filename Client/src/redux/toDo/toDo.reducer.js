@@ -19,7 +19,7 @@ const makeReducer = (state = INITIAL_MAKE_STATE, action) => {
 		case ToDoActionTypes.ADD_NEW_TASK:
 			return {
 				...state,
-				tasks: [...state.tasks, action.payload.task],
+				tasks: [...state.tasks, action.payload],
 			};
 		default:
 			return state;
