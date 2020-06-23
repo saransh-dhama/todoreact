@@ -5,7 +5,7 @@ exports.up = function (knex) {
 		table.string('status').defaultTo('active');
 		table.dateTime('CreatedAt').defaultTo(knex.fn.now());
 		table
-			.integer('userId')
+			.string('userId')
 			.references('userId')
 			.inTable('users')
 			.notNull()

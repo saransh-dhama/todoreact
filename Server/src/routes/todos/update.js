@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 
 const { validateResult } = require('../../middlewares/validateResult');
 const { verifyUser } = require('../../middlewares/verifyUser');
+const TodoItem = require('../../models/TodoItem');
 
 const router = express.Router();
 
@@ -18,16 +19,20 @@ router.put(
 	validateResult,
 	async (req, res) => {
 		const { currentUser } = req;
-		const todoId = req.params.id;
+		const taskId = req.params.id;
 		const { task, status } = req.body;
 
-		console.log(currentUser, task);
-
 		// find the todo with that id
+		const updated = await TodoItem.updateTaskithId({
+			taskId,
+			userId: currentUser.id,
+			task,
+			status,
+		});
 
 		// update it in the db
-
-		res.status(201).send({ task, status });
+		if (updated) return res.send({});
+		res.status(500).send({ message: 'No tasks were updated.' });
 	}
 );
 

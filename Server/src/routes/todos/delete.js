@@ -1,22 +1,31 @@
 const express = require('express');
 
 const { verifyUser } = require('../../middlewares/verifyUser');
+const TodoItem = require('../../models/TodoItem');
 
 const router = express.Router();
 
 router.delete('/api/todo/:id', verifyUser, async (req, res) => {
 	const { currentUser } = req;
-	const todoId = req.params.id;
-	const { task, status } = req.body;
-
-	console.log('deleting todo...');
+	const taskId = req.params.id;
 
 	// find the todo with that id
+	const todoItem = await TodoItem.fetchTaskById(taskId);
+
+	if (!todoItem)
+		return res.status(400).send({ message: 'No task exists with that id.' });
 
 	// check user id against currentUser.id
-	// delete or throw error
+	console.log(todoItem.userId, currentUser.id);
+	if (todoItem.userId !== currentUser.id)
+		return res.status(401).send({
+			message: 'You are not authorized to delete this task.',
+		});
 
-	res.status(201).send({ task, status });
+	// delete task from database
+	await TodoItem.deleteTaskById(taskId);
+
+	res.send({});
 });
 
 exports.deleteTodoRouter = router;
