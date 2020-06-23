@@ -5,6 +5,7 @@ const knex = require('../../../knexClient');
 const { validateResult } = require('../../middlewares/validateResult');
 const { PasswordHandler } = require('../../services/PasswordHandler');
 const { JWTHandler } = require('../../services/JWTHandler');
+const User = require('../../models/User');
 
 const router = express.Router();
 
@@ -34,10 +35,7 @@ router.post(
 		if (!passwordsMatch)
 			return res.status(401).send({ message: 'Password is incorrect.' });
 
-		const token = JWTHandler.generatejwt({
-			id: user.userId,
-			name: user.name,
-		});
+		const token = User.generateUserToken(user);
 
 		// req.session = { jwt: token };
 

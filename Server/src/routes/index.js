@@ -3,11 +3,9 @@ const { app } = require('../app');
 // auth routes
 const { signUpUserRouter } = require('./auth/signup');
 const { signInUserRouter } = require('./auth/signin');
-const { signOutUserRouter } = require('./auth/signout');
 
 app.use(signUpUserRouter);
 app.use(signInUserRouter);
-app.use(signOutUserRouter);
 
 // todos routes
 const { newTodoRouter } = require('./todos/create');

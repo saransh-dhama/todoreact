@@ -5,10 +5,9 @@ const knex = require('../../../knexClient');
 const { validateResult } = require('../../middlewares/validateResult');
 const { PasswordHandler } = require('../../services/PasswordHandler');
 const { JWTHandler } = require('../../services/JWTHandler');
+const User = require('../../models/User');
 
 const router = express.Router();
-
-let user;
 
 router.post(
 	'/api/user/signup',
@@ -30,25 +29,22 @@ router.post(
 		// create user logic
 		const { email, password, name, is18OrOlder } = req.body;
 
-		user = {
-			userId: Date.now().toString(),
+		const user = await User.build({
 			email,
-			password: await PasswordHandler.toHash(password),
+			password,
 			name,
 			is18OrOlder,
-		};
+		});
 
 		try {
-			await knex('users').insert(user);
-			const token = JWTHandler.generatejwt({
-				id: user.id,
-				name: user.name,
-			});
+			await user.saveToDatabase();
+			const token = User.generateUserToken(user);
 
-			req.session = { jwt: token };
+			// req.session = { jwt: token };
 
 			res.status(201).send({ jwt: token });
 		} catch (err) {
+			console.log(err);
 			res.send(500).send({ message: 'User could not be signed up right now.' });
 		}
 	}

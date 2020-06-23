@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 
 const { validateResult } = require('../../middlewares/validateResult');
 const { verifyUser } = require('../../middlewares/verifyUser');
+const TodoItem = require('../../models/TodoItem');
 
 const router = express.Router();
 
@@ -15,17 +16,19 @@ router.post(
 		const { currentUser } = req;
 		const { task } = req.body;
 
-		console.log(task);
+		console.log(currentUser, task);
 
-		const todo = {
-			id: 1,
+		const todo = new TodoItem({
 			task,
-			status: 'active',
 			userId: currentUser.id,
-			createdAt: new Date().toISOString(),
-		};
+		});
 
-		res.status(201).send(todo);
+		try {
+			await todo.saveToDatabase();
+			res.status(201).send(todo);
+		} catch (err) {
+			return res.status(500).send({ message: 'Todo item could not be saved.' });
+		}
 	}
 );
 

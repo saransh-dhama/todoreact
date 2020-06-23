@@ -2,18 +2,17 @@ const { PasswordHandler } = require('../services/PasswordHandler');
 const { JWTHandler } = require('../services/JWTHandler');
 const knex = require('../../knexClient');
 
-class User {
-	constructor({ name, email, password, is18OrOlder }) {
-		this.userId = Date.now().toString();
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.is18OrOlder = is18OrOlder;
+class TodoItem {
+	constructor({ task, userId }) {
+		this.taskId = Date.now().toString();
+		this.task = task;
+		this.status = 'active';
+		this.userId = userId;
 	}
 
 	async saveToDatabase() {
 		try {
-			await knex('users').insert(this);
+			await knex('todos').insert(this);
 		} catch (err) {
 			throw err;
 		}
@@ -26,7 +25,7 @@ class User {
 
 	static generateUserToken(user) {
 		const token = JWTHandler.generatejwt({
-			id: user.userId,
+			id: user.taskId,
 			name: user.name,
 			email: user.email,
 		});
@@ -35,4 +34,4 @@ class User {
 	}
 }
 
-module.exports = User;
+module.exports = TodoItem;
