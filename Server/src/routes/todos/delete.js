@@ -13,10 +13,9 @@ router.delete('/api/todo/:id', verifyUser, async (req, res) => {
 	const todoItem = await TodoItem.fetchTaskById(taskId);
 
 	if (!todoItem)
-		return res.status(400).send({ message: 'No task exists with that id.' });
+		return res.status(404).send({ message: 'No task exists with that id.' });
 
 	// check user id against currentUser.id
-	console.log(todoItem.userId, currentUser.id);
 	if (todoItem.userId !== currentUser.id)
 		return res.status(401).send({
 			message: 'You are not authorized to delete this task.',

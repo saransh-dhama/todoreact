@@ -16,8 +16,6 @@ router.post(
 		const { currentUser } = req;
 		const { task } = req.body;
 
-		console.log(currentUser, task);
-
 		const todo = new TodoItem({
 			task,
 			userId: currentUser.id,

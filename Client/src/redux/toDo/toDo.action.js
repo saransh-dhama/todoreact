@@ -28,13 +28,21 @@ export const clearError = () => ({
 	type: 'CLEAR_ERROR',
 });
 
-export const getAllTasksForUser = (data) => {
+const getTasksApi = async (jwt) => {
+	try {
+		const tasks = await api.get('/todo', {
+			headers: { Authorization: `Bearer ${jwt}` },
+		});
+		return tasks;
+	} catch (err) {
+		throw err;
+	}
+};
+
+const getAllTasksForUser = (data) => {
 	return (dispatch, getState) => {
 		dispatch(toApiPending());
-		api
-			.get('/todo', {
-				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
-			})
+		getTasksApi(getState().user.data.jwt)
 			.then(({ data }) => {
 				dispatch(clearError());
 				dispatch(todoFetchList(data));
@@ -46,6 +54,7 @@ export const getAllTasksForUser = (data) => {
 			});
 	};
 };
+
 export const addNewTaskForUser = (task) => {
 	return (dispatch, getState) => {
 		dispatch(toApiPending());
@@ -71,20 +80,13 @@ export const updateTask = (task) => {
 			.put(`/todo/${task.taskId}`, task, {
 				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
 			})
-			.then((response) => {
-				return api
-					.get('/todo', {
-						headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
-					})
-					.then(({ data }) => {
-						dispatch(clearError());
-						dispatch(todoFetchList(data));
-						return data;
-					})
-					.catch((err) => {
-						dispatch(apiError(err.response));
-						return err;
-					});
+			.then(() => {
+				return getTasksApi(getState().user.data.jwt);
+			})
+			.then(({ data }) => {
+				dispatch(clearError());
+				dispatch(todoFetchList(data));
+				return data;
 			})
 			.catch((err) => {
 				dispatch(apiError(err.response));
@@ -99,20 +101,13 @@ export const deleteTask = (task) => {
 			.delete(`/todo/${task.taskId}`, {
 				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
 			})
-			.then((response) => {
-				return api
-					.get('/todo', {
-						headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
-					})
-					.then(({ data }) => {
-						dispatch(clearError());
-						dispatch(todoFetchList(data));
-						return data;
-					})
-					.catch((err) => {
-						dispatch(apiError(err.response));
-						return err;
-					});
+			.then(() => {
+				return getTasksApi(getState().user.data.jwt);
+			})
+			.then(({ data }) => {
+				dispatch(clearError());
+				dispatch(todoFetchList(data));
+				return data;
 			})
 			.catch((err) => {
 				dispatch(apiError(err.response));
@@ -126,3 +121,5 @@ export const setTasksLists = (list) => {
 		payload: list,
 	};
 };
+
+export { getAllTasksForUser };

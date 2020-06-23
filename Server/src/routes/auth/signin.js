@@ -23,7 +23,7 @@ router.post(
 
 		if (!user)
 			return res
-				.status(400)
+				.status(404)
 				.json({ message: 'No user exists with that email.' });
 
 		// call the PasswordHandler to compare the passwords together

@@ -24,14 +24,18 @@ const ErrorDiv = styled.div`
 	}
 `;
 const ErrorBar = ({ error, clearError }) => {
+	const generateErrorMsg = (error) => {
+		if (error.status === 400) {
+			const erroneousFields = error.data.map((err) => err.param).join(', ');
+			return erroneousFields + ' are incorrect.';
+		} else return error.data.message;
+	};
 	return (
 		<ErrorDiv id='error_div' className='error_on_page' isError={error}>
 			{error && (
 				<>
 					<span>
-						{`An error occurred for this action, ${error.statusText}, ${
-							error.data ? (error.data.message ? error.data.message : '') : ''
-						}`}
+						{`An error occurred for this action. ${generateErrorMsg(error)}`}
 					</span>
 					<span className='close' onClick={() => clearError()}>
 						x

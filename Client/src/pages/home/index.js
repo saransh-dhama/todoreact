@@ -24,9 +24,9 @@ const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
 		<SignInSection className='signIn__section'>
 			<div className='signIn__container container'>
 				<SignInContent className='signIn__container--content'>
-					<h1>Welcome to To-DO app</h1>
-					<p>To start using the app, please register for new users or</p>
-					<p>sign-in for existing users</p>
+					<h1>Welcome to Scratch that!</h1>
+					<p>To start adding todos, please sign up or sign in</p>
+					<p>if you already have an account</p>
 				</SignInContent>
 				{isUserLogged ? (
 					<ButtonsRowSingle>
@@ -36,7 +36,7 @@ const SignInComponent = ({ setCurrentUser, isUserLogged }) => {
 					</ButtonsRowSingle>
 				) : (
 					<ButtonsRow>
-						<Button onClick={() => history.push('/register')}>Register</Button>
+						<Button onClick={() => history.push('/register')}>Sign Up</Button>
 						<Button onClick={() => history.push('/sign-in')}>Sign In</Button>
 					</ButtonsRow>
 				)}

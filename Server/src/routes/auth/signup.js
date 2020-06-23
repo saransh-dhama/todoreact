@@ -44,7 +44,7 @@ router.post(
 
 			res.status(201).send({ jwt: token });
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 			res.send(500).send({ message: 'User could not be signed up right now.' });
 		}
 	}
