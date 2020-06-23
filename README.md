@@ -29,3 +29,26 @@ All user routes return a json web token which is expected to be in future reques
 4. DELETE - /api/todo/:taskId
 
 All todo routes check the headers for Bearer token authorization.
+
+## How to run the project
+### Server
+To run the backend of the application run the following commands:
+```
+cd ./Server
+npm install
+npm start
+```
+The server runs on http://localhost:3200/
+
+### Client
+To run the frontend of the application run the following commands:
+```
+cd ./Client
+yarn install
+yarn start
+```
+or use npm for installing the packages and npm run 
+
+## Access the application on  http://localhost:3000/
+
+
