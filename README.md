@@ -11,3 +11,21 @@ Front-end for this application uses React and Redux for state management. The in
 6. Delete tasks.
 7. Sign-out.
 The state of the application persists between sessions.
+
+## Backend
+Backend for this application is a simple express server utilizing an Sqlite3 database for data persistence.
+
+### Supports the following routes:
+#### Auth routes:
+1. /api/user/signin
+2. /api/user/signup
+
+All user routes return a json web token which is expected to be in future requests' headers for authentication purposes.
+
+#### Todo routes:
+1. GET - /api/todo
+2. POST - /api/todo (expects a task, e.g. {"task": "some task"})
+3. PUT - /api/todo/:taskId (expects an updated task in body, e.g. {"task": "some task", "status": "done"})
+4. DELETE - /api/todo/:taskId
+
+All todo routes check the headers for Bearer token authorization.
