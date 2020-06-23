@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { userSignInFunction } from '../../redux/user/user.actions';
 import {
-	setCurrentUser,
-	userSignInFunction,
-} from '../../redux/user/user.actions';
-import {
-	selectCurrentUser,
 	isUserLogged,
 	getDataPending,
 	getDataError,
@@ -15,21 +11,12 @@ import {
 
 import { SignInSection, SignInContent } from './elementStyles';
 import Form from './pageComponents/form/index';
-const SignInComponent = ({ setCurrentUser, userData, isUserLogged }) => {
-	useEffect(() => {
-		userData();
-	}, []);
+const SignInComponent = ({ signInUser, isUserLogged }) => {
 	if (isUserLogged) {
 		return <Redirect to='/' />;
 	}
-	const HandleSubmit = (event) => {
-		event.preventDefault();
-		const form = event.target;
-		const data = new FormData(form);
-		for (let input of data.keys()) {
-			const value = data.get(input);
-			console.log(input, value);
-		}
+	const HandleSubmit = async (data) => {
+		signInUser(data);
 	};
 	return (
 		<SignInSection className='signIn__section'>
@@ -46,13 +33,11 @@ const SignInComponent = ({ setCurrentUser, userData, isUserLogged }) => {
 	);
 };
 const mapStateToProps = createStructuredSelector({
-	currentUser: selectCurrentUser,
 	isUserLogged: isUserLogged,
 	error: getDataError,
 	pending: getDataPending,
 });
 const mapDispatchToProps = (dispatch) => ({
-	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-	userData: () => dispatch(userSignInFunction()),
+	signInUser: (user) => dispatch(userSignInFunction(user)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);

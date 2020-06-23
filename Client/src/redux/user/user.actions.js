@@ -14,10 +14,13 @@ export const userSignIn = (data) => {
 };
 export const apiError = (error) => {
 	return {
-		type: UserActionTypes.ERROR_IN_API,
-		error: error,
+		type: 'ERROR_ON_PAGE',
+		payload: error,
 	};
 };
+export const clearError = () => ({
+	type: 'CLEAR_ERROR',
+});
 
 export const userSignUpFunction = (data) => {
 	return (dispatch) => {
@@ -25,25 +28,30 @@ export const userSignUpFunction = (data) => {
 		api
 			.post('/user/signup', data)
 			.then(({ data }) => {
+				dispatch(clearError());
 				dispatch(userSignIn(data));
 				return data;
 			})
-			.catch((err) => dispatch(apiError(err)));
+			.catch((err) => {
+				dispatch(apiError(err.response));
+				return err;
+			});
 	};
 };
-export const userSignInFunction = () => {
+export const userSignInFunction = (data) => {
 	return (dispatch, getState) => {
 		dispatch(userApiActionPending());
 		api
-			.post('/user/signin', {
-				email: 'example@test.com',
-				password: 'simbatest',
-			})
-			.then(({ data }) => {
+			.post('/user/signin', data)
+			.then(({ data, status, statusText }) => {
+				dispatch(clearError());
 				dispatch(userSignIn(data));
-				return data;
+				return { data, status, statusText };
 			})
-			.catch((err) => dispatch(apiError(err)));
+			.catch((err) => {
+				dispatch(apiError(err.response));
+				return err;
+			});
 	};
 };
 

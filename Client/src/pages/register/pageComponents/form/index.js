@@ -37,12 +37,6 @@ class FormComponent extends React.Component {
 			password: data.get('password'),
 			name: data.get('name'),
 		});
-		console.log({
-			is18OrOlder: 'true',
-			email: data.get('email'),
-			password: data.get('password'),
-			name: data.get('name'),
-		});
 	};
 
 	render() {

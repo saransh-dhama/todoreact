@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import Item from './pageComponents/item';
@@ -12,17 +13,28 @@ import {
 	ListCount,
 } from './elementStyles';
 import { selectTasks } from '../../redux/toDo/toDo.selector';
+import { isUserLogged } from '../../redux/user/user.selectors';
 import {
 	setTasksLists,
-	postUserRegistartionData,
+	getAllTasksForUser,
 } from '../../redux/toDo/toDo.action';
 
-const HomePageComponent = ({ testData, tasksList, setTasksLists }) => {
+const ToDoPageComponent = ({
+	isUserLogged,
+	getTasks,
+	tasksList,
+	setTasksLists,
+}) => {
+	useEffect(() => {
+		if (isUserLogged) {
+			getTasks();
+		}
+	}, [isUserLogged, getTasks]);
+	if (!isUserLogged) {
+		return <Redirect to='/' />;
+	}
 	const toDoList = tasksList.filter((task) => task.status === 'active');
 	const doneTaskList = tasksList.filter((task) => task.status === 'done');
-	useEffect(() => {
-		testData();
-	}, []);
 	const addTasks = (event) => {
 		if (!event.target.value) return;
 		event.persist();
@@ -70,8 +82,8 @@ const HomePageComponent = ({ testData, tasksList, setTasksLists }) => {
 								return (
 									<Item
 										task={task}
-										key={task.id}
-										id={task.id}
+										key={task.taskId}
+										id={task.taskId}
 										isChecked={task.status === 'active' ? false : true}
 										onCheck={updateTask}
 										deleteTask={deleteTask}
@@ -112,9 +124,10 @@ const HomePageComponent = ({ testData, tasksList, setTasksLists }) => {
 
 const mapStateToProps = createStructuredSelector({
 	tasksList: selectTasks,
+	isUserLogged: isUserLogged,
 });
 const mapDispatchToProps = (dispatch) => ({
 	setTasksLists: (list) => dispatch(setTasksLists(list)),
-	testData: () => dispatch(postUserRegistartionData()),
+	getTasks: () => dispatch(getAllTasksForUser()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(HomePageComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoPageComponent);

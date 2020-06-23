@@ -21,10 +21,10 @@ class FormComponent extends React.Component {
 		event.preventDefault();
 		const form = event.target;
 		const data = new FormData(form);
-		for (let input of data.keys()) {
-			const value = data.get(input);
-			console.log(input, value);
-		}
+		this.props.submitHandler({
+			email: data.get('email'),
+			password: data.get('password'),
+		});
 	};
 
 	render() {

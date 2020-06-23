@@ -5,6 +5,7 @@ import toDoReducer from './toDo/toDo.reducer';
 import user from './user/user.reducer';
 const INITIAL_APP_STATE = {
 	theme: 'dark',
+	pageError: null,
 };
 
 const AppReducer = (state = INITIAL_APP_STATE, action) => {
@@ -13,6 +14,16 @@ const AppReducer = (state = INITIAL_APP_STATE, action) => {
 			return {
 				...state,
 				theme: action.payload,
+			};
+		case 'ERROR_ON_PAGE':
+			return {
+				...state,
+				pageError: action.payload,
+			};
+		case 'CLEAR_ERROR':
+			return {
+				...state,
+				pageError: null,
 			};
 		default:
 			return state;

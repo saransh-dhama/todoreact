@@ -1,12 +1,7 @@
 import React from 'react';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
+
 import styled from 'styled-components';
 import DesktopNavigation from './desktopNav';
-import { isUserLogged } from '../../redux/user/user.selectors';
-import { selectCurrentTheme } from '../../redux/app.selector';
-import { setUserThemeMode } from '../../redux/app.action';
-import { removeCurrentUser } from '../../redux/user/user.actions';
 
 const Header = styled.header`
 	position: fixed;
@@ -43,12 +38,4 @@ const Navigation = ({
 	);
 };
 
-const mapStateToProps = createStructuredSelector({
-	currentTheme: selectCurrentTheme,
-	isUserLogged: isUserLogged,
-});
-const mapDispatchToProps = (dispatch) => ({
-	setSwitchedTheme: (mode) => dispatch(setUserThemeMode(mode)),
-	removeCurrentUser: () => dispatch(removeCurrentUser()),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
+export default Navigation;

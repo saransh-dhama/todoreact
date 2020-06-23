@@ -6,43 +6,55 @@ export const toApiPending = () => {
 	};
 };
 export const todoFetchList = (data) => {
-	console.log(data);
 	return {
 		type: ToDoActionTypes.TODO_FETCH_LIST,
 		payload: data,
 	};
 };
-export const fetchDataError = (error) => {
+export const addNewTask = (data) => {
 	return {
-		type: ToDoActionTypes.FETCH_DATA_ERROR,
-		error: error,
+		type: ToDoActionTypes.ADD_NEW_TASK,
+		payload: data,
 	};
 };
+export const apiError = (error) => {
+	return {
+		type: 'ERROR_ON_PAGE',
+		payload: error,
+	};
+};
+export const clearError = () => ({
+	type: 'CLEAR_ERROR',
+});
 
-export const postUserRegistartionData = (data) => {
+export const getAllTasksForUser = (data) => {
 	return (dispatch, getState) => {
 		dispatch(toApiPending());
 		api
-			.post(
-				'/todo',
-				{
-					task: 'example@test.com',
-				},
-				{ headers: { Authorization: `Bearer ${getState().user.data.jwt}` } }
-			)
+			.get('/todo', {
+				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
+			})
 			.then(({ data }) => {
-				dispatch(
-					todoFetchList([
-						{
-							label: 'adasd asdasd ad asd',
-							id: '1592863774696',
-							status: 'active',
-						},
-					])
-				);
+				dispatch(clearError());
+				dispatch(todoFetchList(data));
 				return data;
 			})
-			.catch((err) => dispatch(fetchDataError(err)));
+			.catch((err) => dispatch(apiError(err)));
+	};
+};
+export const addNewTaskForUser = (data) => {
+	return (dispatch, getState) => {
+		dispatch(toApiPending());
+		api
+			.post('/todo', data, {
+				headers: { Authorization: `Bearer ${getState().user.data.jwt}` },
+			})
+			.then(({ data }) => {
+				dispatch(clearError());
+				dispatch(addNewTask(data));
+				return data;
+			})
+			.catch((err) => dispatch(apiError(err)));
 	};
 };
 export const setTasksLists = (list) => {

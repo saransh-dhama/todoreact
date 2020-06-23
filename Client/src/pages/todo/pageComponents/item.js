@@ -17,7 +17,7 @@ const Item = ({ task, isChecked, id, onCheck, deleteTask }) => {
 				<label htmlFor={id}>
 					<CheckSvg />
 				</label>
-				<span>{task.label}</span>
+				<span>{task.task}</span>
 			</EachList>
 			<DeleteIcon onClick={() => deleteTask(task)}>X</DeleteIcon>
 		</TaskDiv>
